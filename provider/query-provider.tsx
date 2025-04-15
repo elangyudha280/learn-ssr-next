@@ -1,4 +1,4 @@
-
+'use client'
 import React from "react";
 import queryClientConfig from "@/config/query-config";
 import { QueryClientProvider } from "@tanstack/react-query";
