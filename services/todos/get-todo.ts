@@ -5,7 +5,6 @@ const getTodos = async ()=>{
     const axios =await interCeptorAxiosClient()
     try {
         const response = await axios.get('todos?userId=1')
-        console.log(response)
         return response.data
     }
     catch(err:any){

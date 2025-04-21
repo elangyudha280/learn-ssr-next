@@ -1,0 +1,90 @@
+"use server";
+
+import { getServerSession } from "next-auth";
+
+import authOptions from "@/config/next-auth";
+
+interface FetchApiOptions extends RequestInit {
+  cacheType?: RequestCache;
+}
+
+export const fetchApi = async (
+  endpoint: string,
+  options: FetchApiOptions = {}
+): Promise<any> => {
+  const session = await getServerSession(authOptions);
+  const token = session?.user?.token;
+
+  const baseUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api`;
+  const url = `${baseUrl}${endpoint}`;
+
+  try {
+    const response = await fetch(url, {
+      ...options,
+      cache: options.cacheType || "no-cache",
+      headers: {
+        ...(options.headers || {}),
+        Authorization: token ?? "",
+      },
+    });
+
+    return await response.json();
+  } catch (error: any) {
+    console.error("Fetch error:", error);
+    throw new Error(error?.message || "Something went wrong");
+  }
+};
+
+export const fetchApiSso = async (
+  endpoint: string,
+  options: FetchApiOptions = {}
+): Promise<any> => {
+  const session = await getServerSession(authOptions);
+  const token = session?.user?.token;
+
+  const baseUrl = `${process.env.NEXT_PUBLIC_API_SSO_URL}/api`;
+  const url = `${baseUrl}${endpoint}`;
+
+  try {
+    const response = await fetch(url, {
+      ...options,
+      cache: options.cacheType || "no-cache",
+      headers: {
+        ...(options.headers || {}),
+        Authorization: token ?? "",
+      },
+    });
+
+    return await response.json();
+  } catch (error: any) {
+    console.error("Fetch error:", error);
+    throw new Error(error?.message || "Something went wrong");
+  }
+};
+
+export const fetchApiDatareferensi = async (
+  endpoint: string,
+  options: FetchApiOptions = {}
+): Promise<any> => {
+  const session = await getServerSession(authOptions);
+  const token = session?.user?.token;
+
+  const baseUrl = `${process.env.NEXT_PUBLIC_API_DATA_REFERENSI_URL}/api`;
+  const url = `${baseUrl}${endpoint}`;
+
+  try {
+    const response = await fetch(url, {
+      ...options,
+      cache: options.cacheType || "no-cache",
+      headers: {
+        ...(options.headers || {}),
+        Authorization: token ?? "",
+      },
+    });
+
+    return await response.json();
+  } catch (error: any) {
+    console.error("Fetch error:", error);
+    throw new Error(error?.message || "Something went wrong");
+  }
+};
